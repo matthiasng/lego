@@ -9,6 +9,8 @@ import "time"
 type Provider interface {
 	Present(domain, token, keyAuth string) error
 	CleanUp(domain, token, keyAuth string) error
+	CreateRecord(domain, token, fqdn, value string) error
+	DeleteRecord(domain, token, fqdn, value string) error
 }
 
 // ProviderTimeout allows for implementing a

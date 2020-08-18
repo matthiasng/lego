@@ -98,8 +98,12 @@ func (d *DNSProvider) Present(domain, token, keyAuth string) error {
 
 // CleanUp removes the TXT record matching the specified parameters.
 func (d *DNSProvider) CleanUp(domain, token, keyAuth string) error {
-	_, value := dns01.GetRecord(domain, keyAuth)
+	fqdn, value := dns01.GetRecord(domain, keyAuth)
+	return d.DeleteRecord(domain, token, fqdn, value)
+}
 
+// DeleteRecord removes the record matching the specified parameters.
+func (d *DNSProvider) DeleteRecord(domain, token, fqdn, value string) error {
 	err := d.deleteTxtRecord(domain, value)
 	if err != nil {
 		return fmt.Errorf("iij: %w", err)

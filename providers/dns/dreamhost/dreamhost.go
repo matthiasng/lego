@@ -101,6 +101,11 @@ func (d *DNSProvider) Present(domain, token, keyAuth string) error {
 // CleanUp removes the TXT record matching the specified parameters.
 func (d *DNSProvider) CleanUp(domain, token, keyAuth string) error {
 	fqdn, value := dns01.GetRecord(domain, keyAuth)
+	return d.DeleteRecord(domain, token, fqdn, value)
+}
+
+// DeleteRecord removes the record matching the specified parameters.
+func (d *DNSProvider) DeleteRecord(domain, token, fqdn, value string) error {
 	record := dns01.UnFqdn(fqdn)
 
 	u, err := d.buildQuery(cmdRemoveRecord, record, value)

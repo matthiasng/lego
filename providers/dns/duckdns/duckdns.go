@@ -83,8 +83,13 @@ func (d *DNSProvider) Present(domain, token, keyAuth string) error {
 	return d.updateTxtRecord(domain, d.config.Token, txtRecord, false)
 }
 
-// CleanUp clears DuckDNS TXT record.
+// CleanUp removes the TXT record matching the specified parameters.
 func (d *DNSProvider) CleanUp(domain, token, keyAuth string) error {
+	return d.updateTxtRecord(domain, d.config.Token, "", true)
+}
+
+// CleanUp clears DuckDNS TXT record.
+func (d *DNSProvider) DeleteRecord(domain, token, fqdn, value string) error {
 	return d.updateTxtRecord(domain, d.config.Token, "", true)
 }
 

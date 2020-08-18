@@ -186,12 +186,18 @@ func (d *DNSProvider) Present(domain, token, keyAuth string) error {
 	return nil
 }
 
-// CleanUp removes the TXT record matching the specified
+// DeleteRecord removes the TXT record matching the specified
 // parameters. It does this by restoring the old Gandi DNS zone and
 // removing the temporary one created by Present.
 func (d *DNSProvider) CleanUp(domain, token, keyAuth string) error {
-	fqdn, _ := dns01.GetRecord(domain, keyAuth)
+	fqdn, value := dns01.GetRecord(domain, keyAuth)
+	return d.DeleteRecord(domain, token, fqdn, value)
+}
 
+// DeleteRecord removes the TXT record matching the specified
+// parameters. It does this by restoring the old Gandi DNS zone and
+// removing the temporary one created by Present.
+func (d *DNSProvider) DeleteRecord(domain, token, fqdn, value string) error {
 	// acquire lock and retrieve zoneID, newZoneID and authZone
 	d.inProgressMu.Lock()
 	defer d.inProgressMu.Unlock()

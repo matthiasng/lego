@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"os"
 	"time"
+
+	"github.com/go-acme/lego/challenge/dns01"
 )
 
 const (
@@ -37,10 +39,14 @@ func (*DNSProviderManual) Present(domain, token, keyAuth string) error {
 	return err
 }
 
-// CleanUp prints instructions for manually removing the TXT record.
-func (*DNSProviderManual) CleanUp(domain, token, keyAuth string) error {
-	fqdn, _ := GetRecord(domain, keyAuth)
+// CleanUp removes the TXT record matching the specified parameters.
+func (d *DNSProviderManual) CleanUp(domain, token, keyAuth string) error {
+	fqdn, value := dns01.GetRecord(domain, keyAuth)
+	return d.DeleteRecord(domain, token, fqdn, value)
+}
 
+// DeleteRecord removes the record matching the specified parameters.
+func (d *DNSProviderManual) DeleteRecord(domain, token, fqdn, value string) error {
 	authZone, err := FindZoneByFqdn(fqdn)
 	if err != nil {
 		return err
