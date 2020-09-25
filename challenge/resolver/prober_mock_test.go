@@ -3,8 +3,8 @@ package resolver
 import (
 	"time"
 
-	"github.com/go-acme/lego/v3/acme"
-	"github.com/go-acme/lego/v3/challenge"
+	"github.com/go-acme/lego/v4/acme"
+	"github.com/go-acme/lego/v4/challenge"
 )
 
 type preSolverMock struct {
@@ -16,9 +16,11 @@ type preSolverMock struct {
 func (s *preSolverMock) PreSolve(authorization acme.Authorization) error {
 	return s.preSolve[authorization.Identifier.Value]
 }
+
 func (s *preSolverMock) Solve(authorization acme.Authorization) error {
 	return s.solve[authorization.Identifier.Value]
 }
+
 func (s *preSolverMock) CleanUp(authorization acme.Authorization) error {
 	return s.cleanUp[authorization.Identifier.Value]
 }

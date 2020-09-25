@@ -13,9 +13,9 @@ import (
 	"github.com/aws/aws-sdk-go/aws/request"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/route53"
-	"github.com/go-acme/lego/v3/challenge/dns01"
-	"github.com/go-acme/lego/v3/platform/config/env"
-	"github.com/go-acme/lego/v3/platform/wait"
+	"github.com/go-acme/lego/v4/challenge/dns01"
+	"github.com/go-acme/lego/v4/platform/config/env"
+	"github.com/go-acme/lego/v4/platform/wait"
 )
 
 // Environment variables names.
@@ -235,7 +235,7 @@ func (d *DNSProvider) changeRecord(action, hostedZoneID string, recordSet *route
 	})
 }
 
-func (d *DNSProvider) getExistingRecordSets(hostedZoneID string, fqdn string) ([]*route53.ResourceRecord, error) {
+func (d *DNSProvider) getExistingRecordSets(hostedZoneID, fqdn string) ([]*route53.ResourceRecord, error) {
 	listInput := &route53.ListResourceRecordSetsInput{
 		HostedZoneId:    aws.String(hostedZoneID),
 		StartRecordName: aws.String(fqdn),

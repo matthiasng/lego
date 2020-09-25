@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/go-acme/lego/v3/platform/tester"
+	"github.com/go-acme/lego/v4/platform/tester"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/transip/gotransip/v6/domain"
@@ -178,7 +178,7 @@ func TestDNSProvider_concurrentGetDNSEntries(t *testing.T) {
 	var wg sync.WaitGroup
 	wg.Add(2)
 
-	solve := func(domain1 string, suffix string, timeoutPresent time.Duration, timeoutSolve time.Duration, timeoutCleanup time.Duration) error {
+	solve := func(domain1, suffix string, timeoutPresent, timeoutSolve, timeoutCleanup time.Duration) error {
 		time.Sleep(timeoutPresent)
 
 		err := p.Present(domain1, "", "")
@@ -234,7 +234,7 @@ func TestDNSProvider_concurrentAddDNSEntry(t *testing.T) {
 	var wg sync.WaitGroup
 	wg.Add(2)
 
-	solve := func(domain1 string, timeoutPresent time.Duration, timeoutCleanup time.Duration) error {
+	solve := func(domain1 string, timeoutPresent, timeoutCleanup time.Duration) error {
 		time.Sleep(timeoutPresent)
 		err := p.Present(domain1, "", "")
 		if err != nil {

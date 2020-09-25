@@ -8,22 +8,22 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/go-acme/lego/v3/acme"
-	"github.com/go-acme/lego/v3/acme/api"
-	"github.com/go-acme/lego/v3/challenge"
-	"github.com/go-acme/lego/v3/log"
-	"github.com/go-acme/lego/v3/platform/wait"
+	"github.com/go-acme/lego/v4/acme"
+	"github.com/go-acme/lego/v4/acme/api"
+	"github.com/go-acme/lego/v4/challenge"
+	"github.com/go-acme/lego/v4/log"
+	"github.com/go-acme/lego/v4/platform/wait"
 	"github.com/miekg/dns"
 )
 
 const (
-	// DefaultPropagationTimeout default propagation timeout
+	// DefaultPropagationTimeout default propagation timeout.
 	DefaultPropagationTimeout = 60 * time.Second
 
-	// DefaultPollingInterval default polling interval
+	// DefaultPollingInterval default polling interval.
 	DefaultPollingInterval = 2 * time.Second
 
-	// DefaultTTL default TTL
+	// DefaultTTL default TTL.
 	DefaultTTL = 120
 )
 
@@ -172,7 +172,7 @@ type sequential interface {
 }
 
 // GetRecord returns a DNS record which will fulfill the `dns-01` challenge.
-func GetRecord(domain, keyAuth string) (fqdn string, value string) {
+func GetRecord(domain, keyAuth string) (fqdn, value string) {
 	keyAuthShaBytes := sha256.Sum256([]byte(keyAuth))
 	// base64URL encoding without padding
 	value = base64.RawURLEncoding.EncodeToString(keyAuthShaBytes[:sha256.Size])

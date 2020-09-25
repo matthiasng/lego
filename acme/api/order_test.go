@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/go-acme/lego/v3/acme"
-	"github.com/go-acme/lego/v3/platform/tester"
+	"github.com/go-acme/lego/v4/acme"
+	"github.com/go-acme/lego/v4/platform/tester"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	jose "gopkg.in/square/go-jose.v2"
@@ -41,6 +41,10 @@ func TestOrderService_New(t *testing.T) {
 			return
 		}
 
+		w.Header().Add("Link", `<https://example.com/acme/cert/1>;rel="alternate"`)
+		w.Header().Add("Link", `<https://example.com/acme/cert/2>;title="foo";rel="alternate"`)
+		w.Header().Add("Link", `<https://example.com/acme/cert/3>;title="foo";rel="alternate", <https://example.com/acme/cert/4>;rel="alternate"`)
+
 		err = tester.WriteJSONResponse(w, acme.Order{
 			Status:      acme.StatusValid,
 			Identifiers: order.Identifiers,
@@ -61,6 +65,12 @@ func TestOrderService_New(t *testing.T) {
 		Order: acme.Order{
 			Status:      "valid",
 			Identifiers: []acme.Identifier{{Type: "dns", Value: "example.com"}},
+		},
+		AlternateChainLinks: []string{
+			"https://example.com/acme/cert/1",
+			"https://example.com/acme/cert/2",
+			"https://example.com/acme/cert/3",
+			"https://example.com/acme/cert/4",
 		},
 	}
 	assert.Equal(t, expected, order)

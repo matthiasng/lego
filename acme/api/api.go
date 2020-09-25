@@ -11,11 +11,11 @@ import (
 	"time"
 
 	"github.com/cenkalti/backoff/v4"
-	"github.com/go-acme/lego/v3/acme"
-	"github.com/go-acme/lego/v3/acme/api/internal/nonces"
-	"github.com/go-acme/lego/v3/acme/api/internal/secure"
-	"github.com/go-acme/lego/v3/acme/api/internal/sender"
-	"github.com/go-acme/lego/v3/log"
+	"github.com/go-acme/lego/v4/acme"
+	"github.com/go-acme/lego/v4/acme/api/internal/nonces"
+	"github.com/go-acme/lego/v4/acme/api/internal/secure"
+	"github.com/go-acme/lego/v4/acme/api/internal/sender"
+	"github.com/go-acme/lego/v4/log"
 )
 
 // Core ACME/LE core API.
@@ -35,7 +35,7 @@ type Core struct {
 }
 
 // New Creates a new Core.
-func New(httpClient *http.Client, userAgent string, caDirURL, kid string, privateKey crypto.PrivateKey) (*Core, error) {
+func New(httpClient *http.Client, userAgent, caDirURL, kid string, privateKey crypto.PrivateKey) (*Core, error) {
 	doer := sender.NewDoer(httpClient, userAgent)
 
 	dir, err := getDirectory(doer, caDirURL)

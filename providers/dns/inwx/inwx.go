@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/go-acme/lego/v3/challenge/dns01"
-	"github.com/go-acme/lego/v3/log"
-	"github.com/go-acme/lego/v3/platform/config/env"
+	"github.com/go-acme/lego/v4/challenge/dns01"
+	"github.com/go-acme/lego/v4/log"
+	"github.com/go-acme/lego/v4/platform/config/env"
 	"github.com/nrdcg/goinwx"
 	"github.com/pquerna/otp/totp"
 )
@@ -116,7 +116,7 @@ func (d *DNSProvider) Present(domain, token, keyAuth string) error {
 		return fmt.Errorf("inwx: %w", err)
 	}
 
-	var request = &goinwx.NameserverRecordRequest{
+	request := &goinwx.NameserverRecordRequest{
 		Domain:  dns01.UnFqdn(authZone),
 		Name:    dns01.UnFqdn(fqdn),
 		Type:    "TXT",

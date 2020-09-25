@@ -3,15 +3,15 @@ package certificate
 import (
 	"time"
 
-	"github.com/go-acme/lego/v3/acme"
-	"github.com/go-acme/lego/v3/log"
+	"github.com/go-acme/lego/v4/acme"
+	"github.com/go-acme/lego/v4/log"
 )
 
 const (
 	// overallRequestLimit is the overall number of request per second
 	// limited on the "new-reg", "new-authz" and "new-cert" endpoints.
 	// From the documentation the limitation is 20 requests per second,
-	// but using 20 as value doesn't work but 18 do
+	// but using 20 as value doesn't work but 18 do.
 	overallRequestLimit = 18
 )
 

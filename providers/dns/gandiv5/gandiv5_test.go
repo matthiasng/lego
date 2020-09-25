@@ -8,8 +8,8 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/go-acme/lego/v3/log"
-	"github.com/go-acme/lego/v3/platform/tester"
+	"github.com/go-acme/lego/v4/log"
+	"github.com/go-acme/lego/v4/platform/tester"
 	"github.com/stretchr/testify/require"
 )
 
@@ -97,7 +97,7 @@ func TestNewDNSProviderConfig(t *testing.T) {
 func TestDNSProvider(t *testing.T) {
 	// serverResponses is the JSON Request->Response map used by the
 	// fake JSON server.
-	var serverResponses = map[string]map[string]string{
+	serverResponses := map[string]map[string]string{
 		http.MethodGet: {
 			``: `{"rrset_ttl":300,"rrset_values":[],"rrset_name":"_acme-challenge.abc.def","rrset_type":"TXT"}`,
 		},

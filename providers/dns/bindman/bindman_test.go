@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/go-acme/lego/v3/platform/tester"
+	"github.com/go-acme/lego/v4/platform/tester"
 	bindmanClient "github.com/labbsr0x/bindman-dns-webhook/src/client"
 	"github.com/stretchr/testify/require"
 )
@@ -235,6 +235,7 @@ func (m *MockHTTPClientAPI) Post(url string, data []byte) (*http.Response, []byt
 func (m *MockHTTPClientAPI) Get(url string) (*http.Response, []byte, error) {
 	return &http.Response{StatusCode: m.Status}, m.Data, m.Error
 }
+
 func (m *MockHTTPClientAPI) Delete(url string) (*http.Response, []byte, error) {
 	return &http.Response{StatusCode: m.Status}, m.Data, m.Error
 }

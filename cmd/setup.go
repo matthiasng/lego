@@ -9,14 +9,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/go-acme/lego/v3/certcrypto"
-	"github.com/go-acme/lego/v3/lego"
-	"github.com/go-acme/lego/v3/log"
-	"github.com/go-acme/lego/v3/registration"
+	"github.com/go-acme/lego/v4/certcrypto"
+	"github.com/go-acme/lego/v4/lego"
+	"github.com/go-acme/lego/v4/log"
+	"github.com/go-acme/lego/v4/registration"
 	"github.com/urfave/cli"
 )
 
-const filePerm os.FileMode = 0600
+const filePerm os.FileMode = 0o600
 
 func setup(ctx *cli.Context, accountsStorage *AccountsStorage) (*Account, *lego.Client) {
 	keyType := getKeyType(ctx)
@@ -90,7 +90,7 @@ func getEmail(ctx *cli.Context) string {
 
 func createNonExistingFolder(path string) error {
 	if _, err := os.Stat(path); os.IsNotExist(err) {
-		return os.MkdirAll(path, 0700)
+		return os.MkdirAll(path, 0o700)
 	} else if err != nil {
 		return err
 	}

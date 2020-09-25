@@ -5,10 +5,10 @@ import (
 	"crypto/x509"
 	"time"
 
-	"github.com/go-acme/lego/v3/certcrypto"
-	"github.com/go-acme/lego/v3/certificate"
-	"github.com/go-acme/lego/v3/lego"
-	"github.com/go-acme/lego/v3/log"
+	"github.com/go-acme/lego/v4/certcrypto"
+	"github.com/go-acme/lego/v4/certificate"
+	"github.com/go-acme/lego/v4/lego"
+	"github.com/go-acme/lego/v4/log"
 	"github.com/urfave/cli"
 )
 
@@ -57,6 +57,10 @@ func createRenew() cli.Command {
 			cli.StringFlag{
 				Name:  "renew-hook",
 				Usage: "Define a hook. The hook is executed only when the certificates are effectively renewed.",
+			},
+			cli.StringFlag{
+				Name:  "preferred-chain",
+				Usage: "If the CA offers multiple certificate chains, prefer the chain with an issuer matching this Subject Common Name. If no match, the default offered chain will be used.",
 			},
 		},
 	}
@@ -123,10 +127,11 @@ func renewForDomains(ctx *cli.Context, client *lego.Client, certsStorage *Certif
 	}
 
 	request := certificate.ObtainRequest{
-		Domains:    merge(certDomains, domains),
-		Bundle:     bundle,
-		PrivateKey: privateKey,
-		MustStaple: ctx.Bool("must-staple"),
+		Domains:        merge(certDomains, domains),
+		Bundle:         bundle,
+		PrivateKey:     privateKey,
+		MustStaple:     ctx.Bool("must-staple"),
+		PreferredChain: ctx.String("preferred-chain"),
 	}
 	certRes, err := client.Certificate.Obtain(request)
 	if err != nil {
@@ -168,7 +173,11 @@ func renewForCSR(ctx *cli.Context, client *lego.Client, certsStorage *Certificat
 	timeLeft := cert.NotAfter.Sub(time.Now().UTC())
 	log.Infof("[%s] acme: Trying renewal with %d hours remaining", domain, int(timeLeft.Hours()))
 
-	certRes, err := client.Certificate.ObtainForCSR(*csr, bundle)
+	certRes, err := client.Certificate.ObtainForCSR(certificate.ObtainForCSRRequest{
+		CSR:            csr,
+		Bundle:         bundle,
+		PreferredChain: ctx.String("preferred-chain"),
+	})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -199,7 +208,7 @@ func needRenewal(x509Cert *x509.Certificate, domain string, days int) bool {
 	return true
 }
 
-func merge(prevDomains []string, nextDomains []string) []string {
+func merge(prevDomains, nextDomains []string) []string {
 	for _, next := range nextDomains {
 		var found bool
 		for _, prev := range prevDomains {

@@ -10,8 +10,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/go-acme/lego/v3/certcrypto"
-	"github.com/go-acme/lego/v3/registration"
+	"github.com/go-acme/lego/v4/certcrypto"
+	"github.com/go-acme/lego/v4/registration"
 )
 
 const (
@@ -27,10 +27,10 @@ const (
 	// the system-wide trusted root list.
 	caServerNameEnvVar = "LEGO_CA_SERVER_NAME"
 
-	// LEDirectoryProduction URL to the Let's Encrypt production
+	// LEDirectoryProduction URL to the Let's Encrypt production.
 	LEDirectoryProduction = "https://acme-v02.api.letsencrypt.org/directory"
 
-	// LEDirectoryStaging URL to the Let's Encrypt staging
+	// LEDirectoryStaging URL to the Let's Encrypt staging.
 	LEDirectoryStaging = "https://acme-staging-v02.api.letsencrypt.org/directory"
 )
 

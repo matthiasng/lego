@@ -7,9 +7,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/go-acme/lego/v3/challenge/dns01"
-	"github.com/go-acme/lego/v3/platform/config/env"
-	"github.com/go-acme/lego/v3/providers/dns/constellix/internal"
+	"github.com/go-acme/lego/v4/challenge/dns01"
+	"github.com/go-acme/lego/v4/platform/config/env"
+	"github.com/go-acme/lego/v4/providers/dns/constellix/internal"
 )
 
 // Environment variables names.
@@ -196,7 +196,7 @@ func (d *DNSProvider) DeleteRecord(domain, token, fqdn, value string) error {
 	return nil
 }
 
-func (d *DNSProvider) createRecord(dom internal.Domain, fqdn string, recordName string, value string) error {
+func (d *DNSProvider) createRecord(dom internal.Domain, fqdn, recordName, value string) error {
 	request := internal.RecordRequest{
 		Name: recordName,
 		TTL:  d.config.TTL,

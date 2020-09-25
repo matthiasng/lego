@@ -7,9 +7,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/go-acme/lego/v3/challenge/dns01"
-	"github.com/go-acme/lego/v3/platform/config/env"
-	"github.com/go-acme/lego/v3/providers/dns/yandex/internal"
+	"github.com/go-acme/lego/v4/challenge/dns01"
+	"github.com/go-acme/lego/v4/platform/config/env"
+	"github.com/go-acme/lego/v4/providers/dns/yandex/internal"
 	"github.com/miekg/dns"
 )
 
@@ -138,6 +138,7 @@ func (d *DNSProvider) DeleteRecord(domain, token, fqdn, value string) error {
 
 	var record *internal.Record
 	for _, rcd := range records {
+		rcd := rcd
 		if rcd.Type == "TXT" && rcd.SubDomain == subDomain && rcd.Content == value {
 			record = &rcd
 			break

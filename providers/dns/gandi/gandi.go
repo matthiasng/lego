@@ -9,15 +9,15 @@ import (
 	"sync"
 	"time"
 
-	"github.com/go-acme/lego/v3/challenge/dns01"
-	"github.com/go-acme/lego/v3/platform/config/env"
+	"github.com/go-acme/lego/v4/challenge/dns01"
+	"github.com/go-acme/lego/v4/platform/config/env"
 )
 
 // Gandi API reference:       http://doc.rpc.gandi.net/index.html
 // Gandi API domain examples: http://doc.rpc.gandi.net/domain/faq.html
 
 const (
-	// defaultBaseURL Gandi XML-RPC endpoint used by Present and CleanUp
+	// defaultBaseURL Gandi XML-RPC endpoint used by Present and CleanUp.
 	defaultBaseURL = "https://rpc.gandi.net/xmlrpc/"
 	minTTL         = 300
 )

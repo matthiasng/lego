@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/go-acme/lego/v3/challenge/dns01"
-	"github.com/go-acme/lego/v3/platform/config/env"
+	"github.com/go-acme/lego/v4/challenge/dns01"
+	"github.com/go-acme/lego/v4/platform/config/env"
 	"github.com/nrdcg/namesilo"
 )
 
@@ -128,7 +128,7 @@ func (d *DNSProvider) DeleteRecord(domain, token, fqdn, value string) error {
 	var lastErr error
 	name := getRecordName(fqdn, zoneName)
 	for _, r := range resp.Reply.ResourceRecord {
-		if r.Type == "TXT" && r.Host == name {
+		if r.Type == "TXT" && (r.Host == name || r.Host == dns01.UnFqdn(fqdn)) {
 			_, err := d.client.DnsDeleteRecord(&namesilo.DnsDeleteRecordParams{Domain: zoneName, ID: r.RecordID})
 			if err != nil {
 				lastErr = fmt.Errorf("namesilo: %w", err)

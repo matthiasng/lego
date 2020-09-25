@@ -1,10 +1,10 @@
-package fastdns
+package edgedns
 
 import (
 	"testing"
 	"time"
 
-	"github.com/go-acme/lego/v3/platform/tester"
+	"github.com/go-acme/lego/v4/platform/tester"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -41,7 +41,7 @@ func TestNewDNSProvider(t *testing.T) {
 				EnvClientSecret: "",
 				EnvAccessToken:  "",
 			},
-			expected: "fastdns: some credentials information are missing: AKAMAI_HOST,AKAMAI_CLIENT_TOKEN,AKAMAI_CLIENT_SECRET,AKAMAI_ACCESS_TOKEN",
+			expected: "edgedns: some credentials information are missing: AKAMAI_HOST,AKAMAI_CLIENT_TOKEN,AKAMAI_CLIENT_SECRET,AKAMAI_ACCESS_TOKEN",
 		},
 		{
 			desc: "missing host",
@@ -51,7 +51,7 @@ func TestNewDNSProvider(t *testing.T) {
 				EnvClientSecret: "C",
 				EnvAccessToken:  "D",
 			},
-			expected: "fastdns: some credentials information are missing: AKAMAI_HOST",
+			expected: "edgedns: some credentials information are missing: AKAMAI_HOST",
 		},
 		{
 			desc: "missing client token",
@@ -61,7 +61,7 @@ func TestNewDNSProvider(t *testing.T) {
 				EnvClientSecret: "C",
 				EnvAccessToken:  "D",
 			},
-			expected: "fastdns: some credentials information are missing: AKAMAI_CLIENT_TOKEN",
+			expected: "edgedns: some credentials information are missing: AKAMAI_CLIENT_TOKEN",
 		},
 		{
 			desc: "missing client secret",
@@ -71,7 +71,7 @@ func TestNewDNSProvider(t *testing.T) {
 				EnvClientSecret: "",
 				EnvAccessToken:  "D",
 			},
-			expected: "fastdns: some credentials information are missing: AKAMAI_CLIENT_SECRET",
+			expected: "edgedns: some credentials information are missing: AKAMAI_CLIENT_SECRET",
 		},
 		{
 			desc: "missing access token",
@@ -81,7 +81,7 @@ func TestNewDNSProvider(t *testing.T) {
 				EnvClientSecret: "C",
 				EnvAccessToken:  "",
 			},
-			expected: "fastdns: some credentials information are missing: AKAMAI_ACCESS_TOKEN",
+			expected: "edgedns: some credentials information are missing: AKAMAI_ACCESS_TOKEN",
 		},
 	}
 
@@ -123,7 +123,7 @@ func TestNewDNSProviderConfig(t *testing.T) {
 		},
 		{
 			desc:     "missing credentials",
-			expected: "fastdns: credentials are missing",
+			expected: "edgedns: credentials are missing",
 		},
 		{
 			desc:         "missing host",
@@ -131,7 +131,7 @@ func TestNewDNSProviderConfig(t *testing.T) {
 			clientToken:  "B",
 			clientSecret: "C",
 			accessToken:  "D",
-			expected:     "fastdns: credentials are missing",
+			expected:     "edgedns: credentials are missing",
 		},
 		{
 			desc:         "missing client token",
@@ -139,7 +139,7 @@ func TestNewDNSProviderConfig(t *testing.T) {
 			clientToken:  "",
 			clientSecret: "C",
 			accessToken:  "D",
-			expected:     "fastdns: credentials are missing",
+			expected:     "edgedns: credentials are missing",
 		},
 		{
 			desc:         "missing client secret",
@@ -147,7 +147,7 @@ func TestNewDNSProviderConfig(t *testing.T) {
 			clientToken:  "B",
 			clientSecret: "",
 			accessToken:  "B",
-			expected:     "fastdns: credentials are missing",
+			expected:     "edgedns: credentials are missing",
 		},
 		{
 			desc:         "missing access token",
@@ -155,7 +155,7 @@ func TestNewDNSProviderConfig(t *testing.T) {
 			clientToken:  "B",
 			clientSecret: "C",
 			accessToken:  "",
-			expected:     "fastdns: credentials are missing",
+			expected:     "edgedns: credentials are missing",
 		},
 	}
 
@@ -180,44 +180,21 @@ func TestNewDNSProviderConfig(t *testing.T) {
 	}
 }
 
-func TestDNSProvider_findZoneAndRecordName(t *testing.T) {
-	config := NewDefaultConfig()
-	config.Host = "somehost"
-	config.ClientToken = "someclienttoken"
-	config.ClientSecret = "someclientsecret"
-	config.AccessToken = "someaccesstoken"
-
-	provider, err := NewDNSProviderConfig(config)
-	require.NoError(t, err)
-
-	type expected struct {
-		zone       string
-		recordName string
-	}
-
+func TestDNSProvider_findZone(t *testing.T) {
 	testCases := []struct {
 		desc     string
-		fqdn     string
 		domain   string
-		expected expected
+		expected string
 	}{
 		{
-			desc:   "Extract root record name",
-			fqdn:   "_acme-challenge.bar.com.",
-			domain: "bar.com",
-			expected: expected{
-				zone:       "bar.com",
-				recordName: "_acme-challenge",
-			},
+			desc:     "Extract root record name",
+			domain:   "bar.com",
+			expected: "bar.com",
 		},
 		{
-			desc:   "Extract sub record name",
-			fqdn:   "_acme-challenge.foo.bar.com.",
-			domain: "foo.bar.com",
-			expected: expected{
-				zone:       "bar.com",
-				recordName: "_acme-challenge.foo",
-			},
+			desc:     "Extract sub record name",
+			domain:   "foo.bar.com",
+			expected: "bar.com",
 		},
 	}
 
@@ -226,10 +203,9 @@ func TestDNSProvider_findZoneAndRecordName(t *testing.T) {
 		t.Run(test.desc, func(t *testing.T) {
 			t.Parallel()
 
-			zone, recordName, err := provider.findZoneAndRecordName(test.fqdn, test.domain)
+			zone, err := findZone(test.domain)
 			require.NoError(t, err)
-			assert.Equal(t, test.expected.zone, zone)
-			assert.Equal(t, test.expected.recordName, recordName)
+			assert.Equal(t, test.expected, zone)
 		})
 	}
 }

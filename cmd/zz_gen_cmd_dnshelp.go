@@ -41,9 +41,9 @@ func allDNSCodes() string {
 		"dyn",
 		"dynu",
 		"easydns",
+		"edgedns",
 		"exec",
 		"exoscale",
-		"fastdns",
 		"gandi",
 		"gandiv5",
 		"gcloud",
@@ -52,12 +52,12 @@ func allDNSCodes() string {
 		"hetzner",
 		"hostingde",
 		"httpreq",
+		"hyperone",
 		"iij",
 		"inwx",
 		"joker",
 		"lightsail",
 		"linode",
-		"linodev4",
 		"liquidweb",
 		"luadns",
 		"mydnsjp",
@@ -212,6 +212,7 @@ func displayDNSHelp(name string) error {
 		ew.writeln(`Credentials:`)
 		ew.writeln(`	- "AZURE_CLIENT_ID":	Client ID`)
 		ew.writeln(`	- "AZURE_CLIENT_SECRET":	Client secret`)
+		ew.writeln(`	- "AZURE_ENVIRONMENT":	Azure environment, one of: public, usgovernment, german, and china`)
 		ew.writeln(`	- "AZURE_RESOURCE_GROUP":	Resource group`)
 		ew.writeln(`	- "AZURE_SUBSCRIPTION_ID":	Subscription ID`)
 		ew.writeln(`	- "AZURE_TENANT_ID":	Tenant ID`)
@@ -431,7 +432,7 @@ func displayDNSHelp(name string) error {
 		// generated from: providers/dns/desec/desec.toml
 		ew.writeln(`Configuration for deSEC.io.`)
 		ew.writeln(`Code:	'desec'`)
-		ew.writeln(`Since:	'v0.3.7'`)
+		ew.writeln(`Since:	'v3.7.0'`)
 		ew.writeln()
 
 		ew.writeln(`Credentials:`)
@@ -681,6 +682,28 @@ func displayDNSHelp(name string) error {
 		ew.writeln()
 		ew.writeln(`More information: https://go-acme.github.io/lego/dns/easydns`)
 
+	case "edgedns":
+		// generated from: providers/dns/edgedns/edgedns.toml
+		ew.writeln(`Configuration for Akamai EdgeDNS.`)
+		ew.writeln(`Code:	'edgedns'`)
+		ew.writeln(`Since:	'v3.9.0'`)
+		ew.writeln()
+
+		ew.writeln(`Credentials:`)
+		ew.writeln(`	- "AKAMAI_ACCESS_TOKEN":	Access token`)
+		ew.writeln(`	- "AKAMAI_CLIENT_SECRET":	Client secret`)
+		ew.writeln(`	- "AKAMAI_CLIENT_TOKEN":	Client token`)
+		ew.writeln(`	- "AKAMAI_HOST":	API host`)
+		ew.writeln()
+
+		ew.writeln(`Additional Configuration:`)
+		ew.writeln(`	- "AKAMAI_POLLING_INTERVAL":	Time between DNS propagation check. Default: 15 seconds`)
+		ew.writeln(`	- "AKAMAI_PROPAGATION_TIMEOUT":	Maximum waiting time for DNS propagation. Default: 3 minutes`)
+		ew.writeln(`	- "AKAMAI_TTL":	The TTL of the TXT record used for the DNS challenge`)
+
+		ew.writeln()
+		ew.writeln(`More information: https://go-acme.github.io/lego/dns/edgedns`)
+
 	case "exec":
 		// generated from: providers/dns/exec/exec.toml
 		ew.writeln(`Configuration for External program.`)
@@ -712,28 +735,6 @@ func displayDNSHelp(name string) error {
 
 		ew.writeln()
 		ew.writeln(`More information: https://go-acme.github.io/lego/dns/exoscale`)
-
-	case "fastdns":
-		// generated from: providers/dns/fastdns/fastdns.toml
-		ew.writeln(`Configuration for FastDNS.`)
-		ew.writeln(`Code:	'fastdns'`)
-		ew.writeln(`Since:	'v0.5.0'`)
-		ew.writeln()
-
-		ew.writeln(`Credentials:`)
-		ew.writeln(`	- "AKAMAI_ACCESS_TOKEN":	Access token`)
-		ew.writeln(`	- "AKAMAI_CLIENT_SECRET":	Client secret`)
-		ew.writeln(`	- "AKAMAI_CLIENT_TOKEN":	Client token`)
-		ew.writeln(`	- "AKAMAI_HOST":	API host`)
-		ew.writeln()
-
-		ew.writeln(`Additional Configuration:`)
-		ew.writeln(`	- "AKAMAI_POLLING_INTERVAL":	Time between DNS propagation check`)
-		ew.writeln(`	- "AKAMAI_PROPAGATION_TIMEOUT":	Maximum waiting time for DNS propagation`)
-		ew.writeln(`	- "AKAMAI_TTL":	The TTL of the TXT record used for the DNS challenge`)
-
-		ew.writeln()
-		ew.writeln(`More information: https://go-acme.github.io/lego/dns/fastdns`)
 
 	case "gandi":
 		// generated from: providers/dns/gandi/gandi.toml
@@ -904,6 +905,24 @@ func displayDNSHelp(name string) error {
 		ew.writeln()
 		ew.writeln(`More information: https://go-acme.github.io/lego/dns/httpreq`)
 
+	case "hyperone":
+		// generated from: providers/dns/hyperone/hyperone.toml
+		ew.writeln(`Configuration for HyperOne.`)
+		ew.writeln(`Code:	'hyperone'`)
+		ew.writeln(`Since:	''`)
+		ew.writeln()
+
+		ew.writeln(`Additional Configuration:`)
+		ew.writeln(`	- "HYPERONE_API_URL":	Allows to pass custom API Endpoint to be used in the challenge (default https://api.hyperone.com/v2)`)
+		ew.writeln(`	- "HYPERONE_LOCATION_ID":	Specifies location (region) to be used in API calls. (default pl-waw-1)`)
+		ew.writeln(`	- "HYPERONE_PASSPORT_LOCATION":	Allows to pass custom passport file location (default ~/.h1/passport.json)`)
+		ew.writeln(`	- "HYPERONE_POLLING_INTERVAL":	Time between DNS propagation check`)
+		ew.writeln(`	- "HYPERONE_PROPAGATION_TIMEOUT":	Maximum waiting time for DNS propagation`)
+		ew.writeln(`	- "HYPERONE_TTL":	The TTL of the TXT record used for the DNS challenge`)
+
+		ew.writeln()
+		ew.writeln(`More information: https://go-acme.github.io/lego/dns/hyperone`)
+
 	case "iij":
 		// generated from: providers/dns/iij/iij.toml
 		ew.writeln(`Configuration for Internet Initiative Japan.`)
@@ -991,27 +1010,8 @@ func displayDNSHelp(name string) error {
 
 	case "linode":
 		// generated from: providers/dns/linode/linode.toml
-		ew.writeln(`Configuration for Linode (deprecated).`)
-		ew.writeln(`Code:	'linode'`)
-		ew.writeln(`Since:	'v0.4.0'`)
-		ew.writeln()
-
-		ew.writeln(`Credentials:`)
-		ew.writeln(`	- "LINODE_API_KEY":	API key`)
-		ew.writeln()
-
-		ew.writeln(`Additional Configuration:`)
-		ew.writeln(`	- "LINODE_HTTP_TIMEOUT":	API request timeout`)
-		ew.writeln(`	- "LINODE_POLLING_INTERVAL":	Time between DNS propagation check`)
-		ew.writeln(`	- "LINODE_TTL":	The TTL of the TXT record used for the DNS challenge`)
-
-		ew.writeln()
-		ew.writeln(`More information: https://go-acme.github.io/lego/dns/linode`)
-
-	case "linodev4":
-		// generated from: providers/dns/linodev4/linodev4.toml
 		ew.writeln(`Configuration for Linode (v4).`)
-		ew.writeln(`Code:	'linodev4'`)
+		ew.writeln(`Code:	'linode'`)
 		ew.writeln(`Since:	'v1.1.0'`)
 		ew.writeln()
 
@@ -1026,7 +1026,7 @@ func displayDNSHelp(name string) error {
 		ew.writeln(`	- "LINODE_TTL":	The TTL of the TXT record used for the DNS challenge`)
 
 		ew.writeln()
-		ew.writeln(`More information: https://go-acme.github.io/lego/dns/linodev4`)
+		ew.writeln(`More information: https://go-acme.github.io/lego/dns/linode`)
 
 	case "liquidweb":
 		// generated from: providers/dns/liquidweb/liquidweb.toml

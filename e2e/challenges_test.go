@@ -10,12 +10,12 @@ import (
 	"os"
 	"testing"
 
-	"github.com/go-acme/lego/v3/certificate"
-	"github.com/go-acme/lego/v3/challenge/http01"
-	"github.com/go-acme/lego/v3/challenge/tlsalpn01"
-	"github.com/go-acme/lego/v3/e2e/loader"
-	"github.com/go-acme/lego/v3/lego"
-	"github.com/go-acme/lego/v3/registration"
+	"github.com/go-acme/lego/v4/certificate"
+	"github.com/go-acme/lego/v4/challenge/http01"
+	"github.com/go-acme/lego/v4/challenge/tlsalpn01"
+	"github.com/go-acme/lego/v4/e2e/loader"
+	"github.com/go-acme/lego/v4/lego"
+	"github.com/go-acme/lego/v4/registration"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -307,7 +307,10 @@ func TestChallengeTLS_Client_ObtainForCSR(t *testing.T) {
 	csr, err := x509.ParseCertificateRequest(csrRaw)
 	require.NoError(t, err)
 
-	resource, err := client.Certificate.ObtainForCSR(*csr, true)
+	resource, err := client.Certificate.ObtainForCSR(certificate.ObtainForCSRRequest{
+		CSR:    csr,
+		Bundle: true,
+	})
 	require.NoError(t, err)
 
 	require.NotNil(t, resource)

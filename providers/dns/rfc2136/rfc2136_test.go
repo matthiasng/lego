@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/go-acme/lego/v3/challenge/dns01"
+	"github.com/go-acme/lego/v4/challenge/dns01"
 	"github.com/miekg/dns"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -111,7 +111,7 @@ func TestTsigClient(t *testing.T) {
 }
 
 func TestValidUpdatePacket(t *testing.T) {
-	var reqChan = make(chan *dns.Msg, 10)
+	reqChan := make(chan *dns.Msg, 10)
 
 	dns01.ClearFqdnCache()
 	dns.HandleFunc(fakeZone, serverHandlerPassBackRequest(reqChan))
@@ -170,7 +170,8 @@ func runLocalDNSTestServer(tsig bool) (*dns.Server, string, error) {
 		MsgAcceptFunc: func(dh dns.Header) dns.MsgAcceptAction {
 			// bypass defaultMsgAcceptFunc to allow dynamic update (https://github.com/miekg/dns/pull/830)
 			return dns.MsgAccept
-		}}
+		},
+	}
 
 	if tsig {
 		server.TsigSecret = map[string]string{fakeTsigKey: fakeTsigSecret}

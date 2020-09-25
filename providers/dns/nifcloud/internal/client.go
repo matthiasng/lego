@@ -15,7 +15,7 @@ import (
 const (
 	defaultBaseURL = "https://dns.api.nifcloud.com"
 	apiVersion     = "2012-12-12N2013-12-16"
-	// XMLNs XML NS of Route53
+	// XMLNs XML NS of Route53.
 	XMLNs = "https://route53.amazonaws.com/doc/2012-12-12/"
 )
 
@@ -88,7 +88,7 @@ type ChangeInfo struct {
 }
 
 // NewClient Creates a new client of NIFCLOUD DNS.
-func NewClient(accessKey string, secretKey string) (*Client, error) {
+func NewClient(accessKey, secretKey string) (*Client, error) {
 	if len(accessKey) == 0 || len(secretKey) == 0 {
 		return nil, errors.New("credentials missing")
 	}

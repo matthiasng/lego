@@ -15,7 +15,7 @@ import (
 	"time"
 
 	"github.com/cenkalti/backoff/v4"
-	"github.com/go-acme/lego/v3/log"
+	"github.com/go-acme/lego/v4/log"
 )
 
 const defaultBaseURL = "https://api.dynu.com/v2"
@@ -33,7 +33,7 @@ func NewClient() *Client {
 }
 
 // GetRecords Get DNS records based on a hostname and resource record type.
-func (c Client) GetRecords(hostname string, recordType string) ([]DNSRecord, error) {
+func (c Client) GetRecords(hostname, recordType string) ([]DNSRecord, error) {
 	endpoint, err := c.createEndpoint("dns", "record", hostname)
 	if err != nil {
 		return nil, err
@@ -82,7 +82,7 @@ func (c Client) AddNewRecord(domainID int64, record DNSRecord) error {
 }
 
 // DeleteRecord Remove a DNS record from DNS service.
-func (c Client) DeleteRecord(domainID int64, recordID int64) error {
+func (c Client) DeleteRecord(domainID, recordID int64) error {
 	endpoint, err := c.createEndpoint("dns", strconv.FormatInt(domainID, 10), "record", strconv.FormatInt(recordID, 10))
 	if err != nil {
 		return err

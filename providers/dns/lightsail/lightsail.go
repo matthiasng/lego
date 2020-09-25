@@ -12,8 +12,8 @@ import (
 	"github.com/aws/aws-sdk-go/aws/request"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/lightsail"
-	"github.com/go-acme/lego/v3/challenge/dns01"
-	"github.com/go-acme/lego/v3/platform/config/env"
+	"github.com/go-acme/lego/v4/challenge/dns01"
+	"github.com/go-acme/lego/v4/platform/config/env"
 )
 
 const (
@@ -154,7 +154,7 @@ func (d *DNSProvider) Timeout() (timeout, interval time.Duration) {
 	return d.config.PropagationTimeout, d.config.PollingInterval
 }
 
-func (d *DNSProvider) newTxtRecord(fqdn string, value string) error {
+func (d *DNSProvider) newTxtRecord(fqdn, value string) error {
 	params := &lightsail.CreateDomainEntryInput{
 		DomainName: aws.String(d.config.DNSZone),
 		DomainEntry: &lightsail.DomainEntry{

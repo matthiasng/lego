@@ -7,8 +7,8 @@ import (
 	"fmt"
 
 	"github.com/cpu/goacmedns"
-	"github.com/go-acme/lego/v3/challenge/dns01"
-	"github.com/go-acme/lego/v3/platform/config/env"
+	"github.com/go-acme/lego/v4/challenge/dns01"
+	"github.com/go-acme/lego/v4/platform/config/env"
 )
 
 const (
@@ -49,7 +49,7 @@ func NewDNSProvider() (*DNSProvider, error) {
 	}
 
 	client := goacmedns.NewClient(values[EnvAPIBase])
-	storage := goacmedns.NewFileStorage(values[EnvStoragePath], 0600)
+	storage := goacmedns.NewFileStorage(values[EnvStoragePath], 0o600)
 	return NewDNSProviderClient(client, storage)
 }
 
