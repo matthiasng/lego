@@ -104,7 +104,7 @@ func (d *DNSProvider) CleanUp(domain, token, keyAuth string) error {
 	return d.DeleteRecord(domain, token, fqdn, value)
 }
 
-// DeleteRecord removes the record matching the specified parameters.
+// DeleteRecord removes a creates a TXT record from the provider.
 func (d *DNSProvider) DeleteRecord(domain, token, fqdn, value string) error {
 	if err := d.client.RemoveRecord(fqdn, "TXT"); err != nil {
 		return fmt.Errorf("bindman: %w", err)

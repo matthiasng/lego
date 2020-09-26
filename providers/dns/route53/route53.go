@@ -127,7 +127,11 @@ func (d *DNSProvider) Timeout() (timeout, interval time.Duration) {
 // Present creates a TXT record using the specified parameters.
 func (d *DNSProvider) Present(domain, token, keyAuth string) error {
 	fqdn, value := dns01.GetRecord(domain, keyAuth)
+	return d.CreateRecord(domain, token, fqdn, value)
+}
 
+// CreateRecord creates a TXT record to fulfill the DNS-01 challenge.
+func (d *DNSProvider) CreateRecord(domain, token, fqdn, value string) error {
 	hostedZoneID, err := d.getHostedZoneID(fqdn)
 	if err != nil {
 		return fmt.Errorf("route53: failed to determine hosted zone ID: %w", err)

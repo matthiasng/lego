@@ -112,7 +112,11 @@ func (d *DNSProvider) Timeout() (timeout, interval time.Duration) {
 // Present creates a TXT record to fulfill DNS-01 challenge.
 func (d *DNSProvider) Present(domain, token, keyAuth string) error {
 	fqdn, value := dns01.GetRecord(domain, keyAuth)
+	return d.CreateRecord(domain, token, fqdn, value)
+}
 
+// CreateRecord creates a TXT record to fulfill the DNS-01 challenge.
+func (d *DNSProvider) CreateRecord(domain, token, fqdn, value string) error {
 	txtRecord := internal.Record{
 		Type: "TXT",
 		TTL:  uint32(d.config.TTL),

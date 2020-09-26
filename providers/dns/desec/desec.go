@@ -97,7 +97,7 @@ func (d *DNSProvider) Present(domain, token, keyAuth string) error {
 	return d.CreateRecord(domain, token, fqdn, value)
 }
 
-// Present creates a TXT record to fulfill the DNS-01 challenge.
+// CreateRecord creates a TXT record to fulfill the DNS-01 challenge.
 func (d *DNSProvider) CreateRecord(domain, token, fqdn, value string) error {
 	quotedValue := fmt.Sprintf(`"%s"`, value)
 
@@ -149,7 +149,7 @@ func (d *DNSProvider) CleanUp(domain, token, keyAuth string) error {
 	return d.DeleteRecord(domain, token, fqdn, value)
 }
 
-// DeleteRecord removes the record matching the specified parameters.
+// DeleteRecord removes a creates a TXT record from the provider.
 func (d *DNSProvider) DeleteRecord(domain, token, fqdn, value string) error {
 	authZone, err := dns01.FindZoneByFqdn(fqdn)
 	if err != nil {

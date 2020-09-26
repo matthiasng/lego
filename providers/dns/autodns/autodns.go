@@ -132,7 +132,7 @@ func (d *DNSProvider) CleanUp(domain, token, keyAuth string) error {
 	return d.DeleteRecord(domain, token, fqdn, value)
 }
 
-// DeleteRecord removes the TXT record previously created.
+// DeleteRecord removes a creates a TXT record from the provider.
 func (d *DNSProvider) DeleteRecord(domain, token, fqdn, value string) error {
 	records := []*ResourceRecord{{
 		Name:  fqdn,

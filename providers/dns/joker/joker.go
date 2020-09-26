@@ -108,7 +108,11 @@ func (d *DNSProvider) Timeout() (timeout, interval time.Duration) {
 // Present installs a TXT record for the DNS challenge.
 func (d *DNSProvider) Present(domain, token, keyAuth string) error {
 	fqdn, value := dns01.GetRecord(domain, keyAuth)
+	return d.CreateRecord(domain, token, fqdn, value)
+}
 
+// CreateRecord creates a TXT record to fulfill the DNS-01 challenge.
+func (d *DNSProvider) CreateRecord(domain, token, fqdn, value string) error {
 	zone, err := dns01.FindZoneByFqdn(fqdn)
 	if err != nil {
 		return fmt.Errorf("joker: %w", err)

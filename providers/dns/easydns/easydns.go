@@ -139,9 +139,9 @@ func (d *DNSProvider) CleanUp(domain, token, keyAuth string) error {
 	return d.DeleteRecord(domain, token, fqdn, value)
 }
 
-// DeleteRecord removes the record matching the specified parameters.
-func (d *DNSProvider) DeleteRecord(domain, token, fqdn, challenge string) error {
-	key := getMapKey(fqdn, challenge)
+// DeleteRecord removes a creates a TXT record from the provider.
+func (d *DNSProvider) DeleteRecord(domain, token, fqdn, value string) error {
+	key := getMapKey(fqdn, value)
 	recordID, exists := d.recordIDs[key]
 	if !exists {
 		return nil

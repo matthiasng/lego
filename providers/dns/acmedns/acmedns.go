@@ -132,7 +132,7 @@ func (d *DNSProvider) CleanUp(_, _, _ string) error {
 	return nil
 }
 
-// DeleteRecord removes the TXT record matching the specified parameters. It is not
+// DeleteRecord removes a creates a TXT record from the provider. It is not
 // implemented for the ACME-DNS provider.
 func (d *DNSProvider) DeleteRecord(domain, token, fqdn, value string) error {
 	return nil

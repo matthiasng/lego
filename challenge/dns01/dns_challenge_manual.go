@@ -22,9 +22,13 @@ func NewDNSProviderManual() (*DNSProviderManual, error) {
 }
 
 // Present prints instructions for manually creating the TXT record.
-func (*DNSProviderManual) Present(domain, token, keyAuth string) error {
+func (d *DNSProviderManual) Present(domain, token, keyAuth string) error {
 	fqdn, value := GetRecord(domain, keyAuth)
+	return d.CreateRecord(domain, token, fqdn, value)
+}
 
+// CreateRecord creates a TXT record to fulfill the DNS-01 challenge.
+func (*DNSProviderManual) CreateRecord(domain, token, fqdn, value string) error {
 	authZone, err := FindZoneByFqdn(fqdn)
 	if err != nil {
 		return err
@@ -45,7 +49,7 @@ func (d *DNSProviderManual) CleanUp(domain, token, keyAuth string) error {
 	return d.DeleteRecord(domain, token, fqdn, value)
 }
 
-// DeleteRecord removes the record matching the specified parameters.
+// DeleteRecord removes a creates a TXT record from the provider.
 func (d *DNSProviderManual) DeleteRecord(domain, token, fqdn, value string) error {
 	authZone, err := FindZoneByFqdn(fqdn)
 	if err != nil {

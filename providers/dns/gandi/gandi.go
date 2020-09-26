@@ -114,7 +114,11 @@ func NewDNSProviderConfig(config *Config) (*DNSProvider, error) {
 // zone. This new zone contains the TXT record.
 func (d *DNSProvider) Present(domain, token, keyAuth string) error {
 	fqdn, value := dns01.GetRecord(domain, keyAuth)
+	return d.CreateRecord(domain, token, fqdn, value)
+}
 
+// CreateRecord creates a TXT record to fulfill the DNS-01 challenge.
+func (d *DNSProvider) CreateRecord(domain, token, fqdn, value string) error {
 	if d.config.TTL < minTTL {
 		d.config.TTL = minTTL // 300 is gandi minimum value for ttl
 	}
