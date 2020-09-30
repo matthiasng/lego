@@ -9,6 +9,12 @@ import "time"
 type Provider interface {
 	Present(domain, token, keyAuth string) error
 	CleanUp(domain, token, keyAuth string) error
+}
+
+// DNSProvider implements the Provider interface and additional functions to
+// remove and create DNS records.
+type DNSProvider interface {
+	Provider
 	CreateRecord(domain, token, fqdn, value string) error
 	DeleteRecord(domain, token, fqdn, value string) error
 }
